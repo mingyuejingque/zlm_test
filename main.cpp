@@ -23,6 +23,7 @@ typedef struct ZLM_CTX_s {
 
 static zlm_ctx_t g_ctx;
 
+static void start_local_servers();
 static void start_send_rtp();
 static void dz_on_mk_media_source_send_rtp_result(void *user_data, uint16_t local_port, int err, const char *msg);
 static int  init_ffmpeg(const char* file_name);
@@ -45,6 +46,8 @@ int main(int argc, char *argv[] ) {
         if (!init_ffmpeg(input_file)) {
             break;
         }
+
+        start_local_servers(); //如果本地的zlm1也要播放各种协议
 
         ctx = mk_media_create("__defaultVhost__", "live", "zlm_test", 0, 0, 0);
         if (!ctx)
@@ -210,3 +213,12 @@ void start_send_rtp() {
         mk_media_start_send_rtp(g_ctx.zlm, "127.0.0.1", 30443, g_ctx.stream_name, true, dz_on_mk_media_source_send_rtp_result, nullptr);
 }
 
+void start_local_servers() {
+
+    //根据需要自己启动一些服务
+    //mk_http_server_start(80, false);
+    mk_rtsp_server_start(554, false);
+    mk_rtmp_server_start(1935, false);
+    //mk_rtp_server_start(10000);
+    //mk_rtc_server_start(8000);
+}
