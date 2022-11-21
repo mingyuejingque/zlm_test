@@ -11,5 +11,5 @@
   * 音频默认为 g711a, 8k, ch1.
   * 视频默认为 h264
   * Makefile 里依赖的路径 和 一些so库自行调整。
-  
+  ubuntu里的依赖：https://github.com/ZLMediaKit/ZLMediaKit/issues/2086， 请参考这个回帖。
   
